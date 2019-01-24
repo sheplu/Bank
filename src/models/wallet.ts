@@ -1,9 +1,12 @@
 import * as mongoose from 'mongoose';
 
 const WalletSchema = new mongoose.Schema({
-    balance: Number,
+    balance: {
+        type: Number,
+        default: false,
+    },
     currency: String,
-    cid: Number,
+    cid: String,
     master: {
         type: Boolean,
         default: false,
