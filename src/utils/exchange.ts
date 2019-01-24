@@ -14,5 +14,8 @@ const defaultRates = {
 };
 
 export function rates(from, to, value) {
+    console.log(value)
+    console.log(from)
+    console.log(to)
     return value*defaultRates[from][to];
 }

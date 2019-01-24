@@ -17,15 +17,14 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
     let fee = 0;
     if (req.body.origin != req.body.target){
-        fee = rates(req.body.origin, req.body.target, req.body.target);
-        console.log(fee);
+        fee = rates(req.body.origin, req.body.target, req.body.amount);
     }
     new Transfer({
         amount: req.body.amount,
         origin: req.body.origin,
         target: req.body.target,
         fee: fee,
-        oid: req.body.oid,
+        eid: req.body.oid,
         otype: req.body.otype,
         tid: req.body.tid,
         ttype: req.body.ttype,
@@ -35,6 +34,10 @@ router.post('/', (req, res, next) => {
         console.log(result)
         res.json(result);
     });
+
+    
+
+    
 });
 
 router.get('/:id', (req, res, next) => {
