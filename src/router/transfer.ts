@@ -1,6 +1,8 @@
 import * as express from 'express';
 import { Transfer } from '../models/transfer';
 
+import { rates } from '../utils/exchange';
+
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
@@ -13,15 +15,19 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    console.log(req.body)
+    let fee = 0;
+    if (req.body.origin != req.body.target){
+        fee = rates(req.body.origin, req.body.target, req.body.target);
+        console.log(fee);
+    }
     new Transfer({
         amount: req.body.amount,
         origin: req.body.origin,
         target: req.body.target,
-        fee: 10,
-        oid: 'card1',
+        fee: fee,
+        oid: req.body.oid,
         otype: req.body.otype,
-        tid: 'card2',
+        tid: req.body.tid,
         ttype: req.body.ttype,
     })
     .save((err, result) => {

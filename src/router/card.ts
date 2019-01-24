@@ -17,7 +17,6 @@ router.get('/', (req, res, next) => {
     );
 });
 
-// check startsession for transaction
 router.post('/', (req, res, next) => {
 
     Wallet.findByIdAndUpdate(
@@ -106,12 +105,41 @@ router.post('/unload', (req, res, next) => {
     );
 });
 
-router.get('/:uid/:cid/block', (req, res, next) => {
-    
+router.post('/block', (req, res, next) => {
+    Card.findByIdAndUpdate(
+        req.body.card,
+        {
+            balance: 0,
+            status: true,
+        },
+        (err, card) => {
+            Wallet.findByIdAndUpdate(
+                req.body.wallet,
+                {
+                    $inc: { balance: card.balance }
+                },
+                { new: true },
+                (err, wallet) => {
+                    console.log(wallet);
+                    res.json(wallet);
+                }
+            );
+        }
+    );
 });
 
-router.get('/:uid/:cid/unblock', (req, res, next) => {
-    
+router.post('/unblock', (req, res, next) => {
+    Card.findByIdAndUpdate(
+        req.body.card,
+        {
+            status: false,
+        },
+        { new: true },
+        (err, card) => {
+            console.log(card);
+            res.json(card)
+        }
+    );
 });
 
 
