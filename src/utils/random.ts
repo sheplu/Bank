@@ -1,11 +1,15 @@
 export function digitsAsString() {
-    return `${Math.floor(Math.random() * 9999 )}`;
+    return `${Math.floor(Math.random() * 10 )}`;
 };
 
-export function digitsCard() {
+export function digitsFour() {
     return `${digitsAsString()}${digitsAsString()}${digitsAsString()}${digitsAsString()}`;
 }
 
+export function digitsCard() {
+    return `${digitsFour()}${digitsFour()}${digitsFour()}${digitsFour()}`;
+}
+
 export function ccv() {
-    return `${Math.floor(Math.random() * 999 )}`;
+    return `${digitsAsString}${digitsAsString}${digitsAsString}`;
 }

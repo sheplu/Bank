@@ -17,7 +17,6 @@ router.get('/', (req, res, next) => {
     );
 });
 
-// add promise to substract amout to wallet
 // check startsession for transaction
 router.post('/', (req, res, next) => {
 
@@ -57,12 +56,54 @@ router.get('/:id', (req, res, next) => {
     );
 });
 
-router.get('/:uid/:cid/load', (req, res, next) => {
-    
+router.post('/load', (req, res, next) => {
+    Wallet.findByIdAndUpdate(
+        req.body.wallet,
+        {
+            $inc: { balance: -req.body.amount }
+        },
+        { new: true },
+        (err, wallet) => {
+            console.log(wallet);
+        }
+    );
+
+    Card.findByIdAndUpdate(
+        req.body.card,
+        {
+            $inc: { balance: req.body.amount }
+        },
+        { new: true },
+        (err, card) => {
+            console.log(card);
+            res.json(card)
+        }
+    );
 });
 
-router.get('/:uid/:cid/unload', (req, res, next) => {
-    
+router.post('/unload', (req, res, next) => {
+    Wallet.findByIdAndUpdate(
+        req.body.wallet,
+        {
+            $inc: { balance: req.body.amount }
+        },
+        { new: true },
+        (err, wallet) => {
+            console.log(wallet);
+        }
+    );
+
+    Card.findByIdAndUpdate(
+        req.body.card,
+        {
+            $inc: { balance: -req.body.amount }
+        },
+        { new: true },
+        (err, card) => {
+            console.log(card);
+            res.json(card)
+        }
+    );
 });
 
 router.get('/:uid/:cid/block', (req, res, next) => {
