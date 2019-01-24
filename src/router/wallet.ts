@@ -12,16 +12,16 @@ router.get('/', (req, res, next) => {
     )
 });
 
+// check if valid currency
 router.post('/', (req, res, next) => {
-    console.log(req.body)
     new Wallet({
         balance: req.body.balance,
         currency: req.body.currency,
         cid: req.body.company,
+        uid: req.body.uid,
     })
     .save((err, result) => {
         if(err) console.log(err);
-        console.log(result)
         res.json(result);
     })
 });
@@ -32,8 +32,7 @@ router.get('/:id', (req, res, next) => {
         (err, wallet) => {
             res.json(wallet);
         }
-    )
-    res.json("wallets")
+    );
 });
 
 export { router as WalletRouter };

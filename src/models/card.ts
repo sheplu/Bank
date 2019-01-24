@@ -1,9 +1,13 @@
 import * as mongoose from 'mongoose';
 
 const CardSchema = new mongoose.Schema({
-    wid: Number,
+    wid: String,
     currency: String,
-    balance: Number,
+    balance: {
+        type: Number,
+        default: 0,
+        min: [0, 'Card balance must be positive'],
+    },
     digits: Number,
     ccv: Number,
     expiration: Date,
