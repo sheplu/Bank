@@ -11,5 +11,5 @@ export function digitsCard() {
 }
 
 export function ccv() {
-    return `${digitsAsString}${digitsAsString}${digitsAsString}`;
+    return `${digitsAsString()}${digitsAsString()}${digitsAsString()}`;
 }

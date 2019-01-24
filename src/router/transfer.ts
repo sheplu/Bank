@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { Transfer } from '../models/transfer';
+import { logger, loggerError } from '../utils/log';
 
 import { rates } from '../utils/exchange';
 
@@ -9,6 +10,8 @@ router.get('/', (req, res, next) => {
     Transfer.find(
         {},
         (err, transfer) => {
+            if(err) loggerError(err);
+            logger([req, transfer]);
             res.json(transfer);
         }
     );
@@ -30,20 +33,18 @@ router.post('/', (req, res, next) => {
         ttype: req.body.ttype,
     })
     .save((err, result) => {
-        if(err) console.log(err);
-        console.log(result)
+        if(err) loggerError(err);
+        logger([req, result]);
         res.json(result);
     });
-
-    
-
-    
 });
 
 router.get('/:id', (req, res, next) => {
     Transfer.findById(
         req.params.id,
         (err, transfer) => {
+            if(err) loggerError(err);
+            logger([req, transfer]);
             res.json(transfer);
         }
     );

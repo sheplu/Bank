@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 
 import { ApiRouter } from './router/api';
+import { logger } from './utils/log';
 
 const app = express();
 app.use(express.json());
@@ -25,6 +26,10 @@ db.once('open', () => {
 });
 
 app.use('/api', ApiRouter);
+
+app.use('**', (req, res, next) => {
+  logger(req);
+})
 
 const PORT = process.env.PORT || 3000;
 

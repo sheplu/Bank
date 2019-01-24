@@ -3,18 +3,10 @@ import * as express from 'express';
 import { Wallet } from '../models/wallet';
 import { Card } from '../models/card';
 import { Transfer } from '../models/transfer';
+import { logger, loggerError } from '../utils/log';
 
 
 const router = express.Router();
-
-router.get('/', (req, res, next) => {
-    Card.find(
-        {},
-        (err, cards) => {
-            res.json(cards);
-        }
-    );
-});
 
 router.get('/:uid/wallet', (req, res, next) => {
     Wallet.find(
@@ -22,6 +14,8 @@ router.get('/:uid/wallet', (req, res, next) => {
             uid: req.params.uid,
         },
         (err, wallets) => {
+            if(err) loggerError(err);
+            logger([req, wallets]);
             res.json(wallets);
         }
     );
@@ -33,6 +27,8 @@ router.get('/:uid/card', (req, res, next) => {
             uid: req.params.uid,
         },
         (err, cards) => {
+            if(err) loggerError(err);
+            logger([req, cards]);
             res.json(cards);
         }
     );
